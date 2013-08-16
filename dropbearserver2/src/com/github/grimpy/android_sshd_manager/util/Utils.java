@@ -1,7 +1,7 @@
 /*
  * elsdoerfer <http://blog.elsdoerfer.name/2010/04/15/android-check-if-sd-card-storage-is-available/>
  */
-package me.shkschneider.dropbearserver2.util;
+package com.github.grimpy.android_sshd_manager.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,10 +1,11 @@
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
+
+import com.github.grimpy.android_sshd_manager.util.L;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import me.shkschneider.dropbearserver2.util.L;
 
 public class LocalPreferences {
 

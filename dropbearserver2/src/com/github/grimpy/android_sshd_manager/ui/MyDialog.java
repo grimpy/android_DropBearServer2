@@ -1,6 +1,6 @@
-package me.shkschneider.dropbearserver2.ui;
+package com.github.grimpy.android_sshd_manager.ui;
 
-import me.shkschneider.dropbearserver2.MainApplication;
+import com.github.grimpy.android_sshd_manager.MainApplication;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -1,4 +1,4 @@
-package me.shkschneider.dropbearserver2.util;
+package com.github.grimpy.android_sshd_manager.util;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ public class L {
 	private static final int ERROR = 50;
 
 	private static final void log(int state, final String msg) {
-		String tag = "DropBearServer2";
+		String tag = "sshd_fe";
 
 		// Uses StackTrace to build the log tag
 		StackTraceElement[] elements = new Throwable().getStackTrace();

@@ -1,10 +1,11 @@
-package me.shkschneider.dropbearserver2.task;
+package com.github.grimpy.android_sshd_manager.task;
+
+import com.github.grimpy.android_sshd_manager.util.L;
+import com.github.grimpy.android_sshd_manager.util.ServerUtils;
+import com.github.grimpy.android_sshd_manager.util.ShellUtils;
 
 import android.content.Context;
 
-import me.shkschneider.dropbearserver2.util.L;
-import me.shkschneider.dropbearserver2.util.ServerUtils;
-import me.shkschneider.dropbearserver2.util.ShellUtils;
 
 public class Stopper extends Task {
 
@@ -18,11 +19,11 @@ public class Stopper extends Task {
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
-		ShellUtils.rm(ServerUtils.getLocalDir(mContext) + "/pid");
+		//ShellUtils.rm(ServerUtils.getLocalDir(mContext) + "/pid");
 
 		L.i("Killing processes");
-		if (ShellUtils.killall("dropbear") == false) {
-			return falseWithError("killall(dropbear)");
+		if (ShellUtils.killall("sshd") == false) {
+			return falseWithError("killall(sshd)");
 		}
 
 		return true;

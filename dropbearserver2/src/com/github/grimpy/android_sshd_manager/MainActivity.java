@@ -1,6 +1,7 @@
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,16 +26,17 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.github.grimpy.android_sshd_manager.task.Checker;
+import com.github.grimpy.android_sshd_manager.task.Initialize;
+import com.github.grimpy.android_sshd_manager.task.Remover;
+import com.github.grimpy.android_sshd_manager.task.Starter;
+import com.github.grimpy.android_sshd_manager.task.Stopper;
+import com.github.grimpy.android_sshd_manager.task.Task.Callback;
+import com.github.grimpy.android_sshd_manager.util.L;
+import com.github.grimpy.android_sshd_manager.util.RootUtils;
+import com.github.grimpy.android_sshd_manager.util.ServerUtils;
 
-import me.shkschneider.dropbearserver2.task.Checker;
-import me.shkschneider.dropbearserver2.task.Installer;
-import me.shkschneider.dropbearserver2.task.Remover;
-import me.shkschneider.dropbearserver2.task.Starter;
-import me.shkschneider.dropbearserver2.task.Stopper;
-import me.shkschneider.dropbearserver2.task.Task.Callback;
-import me.shkschneider.dropbearserver2.util.L;
-import me.shkschneider.dropbearserver2.util.RootUtils;
-import me.shkschneider.dropbearserver2.util.ServerUtils;
+import com.github.grimpy.android_sshd_manager.R;
 
 public class MainActivity extends SherlockActivity implements View.OnClickListener, Callback<Boolean> {
 
@@ -116,7 +119,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 		if (view == mInstall) {
 			stdout("Installer started");
 			setProgressBarIndeterminateVisibility(true);
-			new Installer(this, this).execute();
+			new Initialize(this, this).execute();
 		}
 		else if (view == mStart) {
 			stdout("Starter started");
@@ -182,7 +185,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 	}
 
 	private void status() {
-		if (RootUtils.hasDropbear == false) {
+		if (RootUtils.isInitialized == false) {
 			mStatus = STATUS_NOT_INSTALLED;
 			stdout("Server not installed");
 		}
@@ -190,11 +193,11 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			mStatus = STATUS_NOT_READY;
 			stdout("Server not ready (root access denied)");
 		}
-		else if (RootUtils.hasBusybox == false) {
+		else if (RootUtils.hasSSHD == false) {
 			mStatus = STATUS_NOT_READY;
 			stdout("Server not ready (busybox missing)");
 		}
-		else if (ServerUtils.dropbearRunning == true) {
+		else if (ServerUtils.sshdRunning == true) {
 			mStatus = STATUS_STARTED;
 			stdout("Server started on port " + LocalPreferences.getString(getApplicationContext(), LocalPreferences.PREF_PORT, LocalPreferences.PREF_PORT_DEFAULT));
 
@@ -266,7 +269,12 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 
 	private void pubkeyRemove() {
 		final Context context = getApplicationContext();
-		final List<String> pubKeys = ServerUtils.getPublicKeys(ServerUtils.getLocalDir(this) + "/authorized_keys");
+		final List<String> pubKeys = new ArrayList<String>();
+		for (String pubKey : ServerUtils.getPublicKeys(ServerUtils.AUTHORIZED_KEYS)) {
+			if (!TextUtils.isEmpty(pubKey)) {
+				pubKeys.add(pubKey);
+			}
+		}
 		if (pubKeys.size() > 0) {
 			AlertDialog alertDialog = new AlertDialog.Builder(this).setSingleChoiceItems(pubKeys.toArray(new String[pubKeys.size()]), 0, null).create();
 			alertDialog.setCancelable(false);
@@ -285,7 +293,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					ListView listView = ((AlertDialog) dialog).getListView();
-					ServerUtils.removePublicKey(pubKeys.get((int) listView.getSelectedItemId()), ServerUtils.getLocalDir(context) + "/authorized_keys");
+					ServerUtils.removePublicKey(pubKeys.get((int) listView.getSelectedItemId()), ServerUtils.AUTHORIZED_KEYS);
 					Toast.makeText(context, "Pubkey removed", Toast.LENGTH_SHORT).show();
 				}
 			});

@@ -2,7 +2,7 @@
  * Michael Almyros <http://www.dreamincode.net/forums/topic/190013-creating-simple-file-chooser/>
  * Max Aller <http://blog.maxaller.name/2010/05/attaching-a-sticky-headerfooter-to-an-android-listview/>
  */
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -33,9 +33,10 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.grimpy.android_sshd_manager.util.L;
+import com.github.grimpy.android_sshd_manager.util.ServerUtils;
 
-import me.shkschneider.dropbearserver2.util.L;
-import me.shkschneider.dropbearserver2.util.ServerUtils;
+import com.github.grimpy.android_sshd_manager.R;
 
 public class ExplorerActivity extends SherlockListActivity implements DialogInterface.OnClickListener {
 
@@ -171,10 +172,10 @@ public class ExplorerActivity extends SherlockListActivity implements DialogInte
 
 	@Override
 	public void onClick(DialogInterface dialog, int button) {
-		List<String> publicKeys = ServerUtils.getPublicKeys(ServerUtils.getLocalDir(this) + "/authorized_keys");
+		List<String> publicKeys = ServerUtils.getPublicKeys(ServerUtils.AUTHORIZED_KEYS);
 		if (button == DialogInterface.BUTTON_POSITIVE) {
 			if (publicKeys.contains(mPublicKey) == false) {
-				ServerUtils.addPublicKey(mPublicKey, ServerUtils.getLocalDir(this) + "/authorized_keys");
+				ServerUtils.addPublicKey(mPublicKey, ServerUtils.AUTHORIZED_KEYS);
 				Toast.makeText(this, "Pubkey successfully added", Toast.LENGTH_SHORT).show();
 				finish();
 			}

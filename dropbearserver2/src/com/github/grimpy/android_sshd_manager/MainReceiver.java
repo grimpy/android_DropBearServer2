@@ -1,13 +1,14 @@
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
+
+import com.github.grimpy.android_sshd_manager.task.Starter;
+import com.github.grimpy.android_sshd_manager.task.Task.Callback;
+import com.github.grimpy.android_sshd_manager.util.L;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 
-import me.shkschneider.dropbearserver2.task.Starter;
-import me.shkschneider.dropbearserver2.task.Task.Callback;
-import me.shkschneider.dropbearserver2.util.L;
 
 public class MainReceiver extends BroadcastReceiver {
 

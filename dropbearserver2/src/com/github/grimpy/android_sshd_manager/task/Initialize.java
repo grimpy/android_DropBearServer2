@@ -1,17 +1,18 @@
-package me.shkschneider.dropbearserver2.task;
+package com.github.grimpy.android_sshd_manager.task;
 
 import java.io.File;
 
+import com.github.grimpy.android_sshd_manager.util.ServerUtils;
+import com.github.grimpy.android_sshd_manager.util.ShellUtils;
+import com.github.grimpy.android_sshd_manager.util.Utils;
+
 import android.content.Context;
 
-import me.shkschneider.dropbearserver2.R;
-import me.shkschneider.dropbearserver2.util.ServerUtils;
-import me.shkschneider.dropbearserver2.util.ShellUtils;
-import me.shkschneider.dropbearserver2.util.Utils;
+import com.github.grimpy.android_sshd_manager.R;
 
-public class Installer extends Task {
+public class Initialize extends Task {
 
-	public Installer(Context context, Callback<Boolean> callback) {
+	public Initialize(Context context, Callback<Boolean> callback) {
 		super(Callback.TASK_INSTALL, context, callback, false);
 
 		if (mProgressDialog != null) {
@@ -50,41 +51,10 @@ public class Installer extends Task {
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
-		String tmp = ServerUtils.getLocalDir(mContext) + "/tmp";
-
 		publishProgress("Dropbear binary");
-		copyToAppData(R.raw.dropbear, ServerUtils.getLocalDir(mContext) + "/dropbear");
-
-		publishProgress("Dropbearkey binary");
-		copyToAppData(R.raw.dropbearkey, ServerUtils.getLocalDir(mContext) + "/dropbearkey");
-
-		publishProgress("Remount Read-Write");
-		if (Utils.remountReadWrite("/system") == false) {
-			return falseWithError("/system RW");
-		}
-
-		publishProgress("SSH binary");
-		copyToSystemXbin(R.raw.ssh, tmp, "/system/xbin/ssh");
-
-		publishProgress("SCP binary");
-		copyToSystemXbin(R.raw.scp, tmp, "/system/xbin/scp");
-
-		publishProgress("DBClient binary");
-		copyToSystemXbin(R.raw.dbclient, tmp, "/system/xbin/dbclient");
-
-		publishProgress("SFTP binary");
-		copyToSystemXbin(R.raw.sftp_server, tmp, "/system/xbin/sftp-server");
-
-		publishProgress("Remount Read-Only");
-		if (Utils.remountReadOnly("/system") == false) {
-			return falseWithError("/system RO");
-		}
-
-		publishProgress("Banner");
-		copyToAppData(R.raw.banner, ServerUtils.getLocalDir(mContext) + "/banner");
-
+		
 		publishProgress("Authorized keys");
-		String authorized_keys = ServerUtils.getLocalDir(mContext) + "/authorized_keys";
+		String authorized_keys = ServerUtils.AUTHORIZED_KEYS;
 		if (new File(authorized_keys).exists() == true && ShellUtils.rm(authorized_keys) == false) {
 			return falseWithError(authorized_keys);
 		}
@@ -93,7 +63,7 @@ public class Installer extends Task {
 		}
 
 		publishProgress("Host RSA key");
-		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
+		String host_rsa = ServerUtils.RSA_KEY;
 		if (new File(host_rsa).exists() == true && ShellUtils.rm(host_rsa) == false) {
 			return falseWithError(host_rsa);
 		}
@@ -101,19 +71,16 @@ public class Installer extends Task {
 			return falseWithError(host_rsa);
 		}
 
-		publishProgress("Host DSS key");
-		String host_dss = ServerUtils.getLocalDir(mContext) + "/host_dss";
+		publishProgress("Host DSA key");
+		String host_dss = ServerUtils.DSA_KEY;
 		if (new File(host_dss).exists() == true && ShellUtils.rm(host_dss) == false) {
 			return falseWithError(host_dss);
 		}
-		if (ServerUtils.generateDssPrivateKey(host_dss) == false) {
+		if (ServerUtils.generateDsaPrivateKey(host_dss) == false) {
 			return falseWithError(host_dss);
 		}
-
+		
 		publishProgress("Permissions");
-		if (ShellUtils.chmod("/data/local", "755") == false) {
-			return falseWithError("/data/local");
-		}
 		if (ShellUtils.chmod(authorized_keys, "644") == false) {
 			return falseWithError(authorized_keys);
 		}

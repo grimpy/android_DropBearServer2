@@ -1,4 +1,4 @@
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
 
 import android.app.Application;
 import android.content.pm.PackageInfo;
@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 
+import com.github.grimpy.android_sshd_manager.util.L;
 import com.stericson.RootTools.RootTools;
 
-import me.shkschneider.dropbearserver2.util.L;
 
 public class MainApplication extends Application {
 

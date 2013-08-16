@@ -1,5 +1,6 @@
-package me.shkschneider.dropbearserver2;
+package com.github.grimpy.android_sshd_manager;
 
+import com.github.grimpy.android_sshd_manager.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

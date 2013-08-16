@@ -1,4 +1,6 @@
-package me.shkschneider.dropbearserver2.task;
+package com.github.grimpy.android_sshd_manager.task;
+
+import com.github.grimpy.android_sshd_manager.util.L;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
@@ -6,7 +8,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import me.shkschneider.dropbearserver2.util.L;
 
 public abstract class Task extends AsyncTask<Void, String, Boolean> {
 

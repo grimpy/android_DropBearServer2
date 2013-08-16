@@ -1,13 +1,16 @@
 /*
  * Muzikant <http://muzikant-android.blogspot.fr/2011/02/how-to-get-root-access-and-execute.html>
  */
-package me.shkschneider.dropbearserver2.util;
+package com.github.grimpy.android_sshd_manager.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.stericson.RootTools.CommandCapture;
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.RootToolsException;
 
 public abstract class ShellUtils {
 
@@ -83,6 +86,24 @@ public abstract class ShellUtils {
 
 	public static final Boolean echoAppendToFile(String text, String path) {
 		return execute("echo '" + text + "' >> " + path);
+	}
+	
+	public static final List<String> readFile(String path) {
+		try {
+			List<String> content = new ArrayList<String>(RootTools.sendShell("cat " + path, 0));
+			content.remove(content.size()-1);
+			return content;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RootToolsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static final Boolean lnSymbolic(String srcPath, String destPath) {
