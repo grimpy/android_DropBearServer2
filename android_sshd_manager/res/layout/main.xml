@@ -38,28 +38,28 @@
             android:id="@+id/install"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:text="Install" />
+            android:text="@string/initialize" />
 
         <Button
             android:enabled="false"
             android:id="@+id/start"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:text="Start" />
+            android:text="@string/start" />
 
         <Button
             android:enabled="false"
             android:id="@+id/stop"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:text="Stop" />
+            android:text="@string/stop" />
 
         <Button
             android:enabled="false"
             android:id="@+id/remove"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:text="Remove" />
+            android:text="@string/deconfigure" />
 
         <LinearLayout
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:layout_width="match_parent"
-                android:text="Add pubkey" />
+                android:text="@string/add_publickey" />
 
             <Button
                 android:enabled="false"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:layout_width="match_parent"
-                android:text="Remove pubkey" />
+                android:text="@string/remove_publickey" />
         </LinearLayout>
 
         <TextView

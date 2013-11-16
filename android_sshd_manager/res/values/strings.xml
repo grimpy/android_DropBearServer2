@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appname">SSHD Manager</string>
+    <string name="enable_authentication">Enable authentication</string>
+    <string name="initialize">Initialize</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="remove">Remove</string>
+    <string name="deconfigure">Deconfigure</string>
+    <string name="add_publickey">Add pubkey</string>
+    <string name="remove_publickey">Remove pubkey</string>
+    
+</resources>

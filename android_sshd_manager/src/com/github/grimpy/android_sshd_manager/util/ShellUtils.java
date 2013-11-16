@@ -90,6 +90,9 @@ public abstract class ShellUtils {
 	
 	public static final List<String> readFile(String path) {
 		try {
+			if (!RootTools.exists(path)) {
+				return new ArrayList<String>();
+			}
 			List<String> content = new ArrayList<String>(RootTools.sendShell("cat " + path, 0));
 			content.remove(content.size()-1);
 			return content;

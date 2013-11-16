@@ -9,12 +9,9 @@ import android.preference.PreferenceManager;
 
 public class LocalPreferences {
 
-	public static final String PREF_ALLOW_PASSWORD = "allow_password";
-	public static final Boolean PREF_ALLOW_PASSWORD_DEFAULT = true;
+	public static final String PREF_ENABLE_AUTHENTICATION = "enable_authentication";
 	public static final String PREF_START_BOOT = "Start_boot";
 	public static final Boolean PREF_START_BOOT_DEFAULT = true;
-	public static final String PREF_PASSWORD = "password";
-	public static final String PREF_PASSWORD_DEFAULT = "42";
 	public static final String PREF_PORT = "port";
 	public static final String PREF_PORT_DEFAULT = "22";
 

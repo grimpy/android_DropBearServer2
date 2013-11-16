@@ -18,11 +18,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.conn.util.InetAddressUtils;
@@ -38,11 +40,19 @@ public abstract class ServerUtils {
 	public static Boolean sshdRunning = false;
 	public static String dropbearVersion = null;
 	public static List<String> ipAddresses = null;
-	public static String AUTHORIZED_KEYS = "/data/.ssh/authorized_keys";
+	public static String AUTHORIZED_KEYS = "/data/ssh/authorized_keys";
 	public static String RSA_KEY = "/data/ssh/ssh_host_rsa_key";
 	public static String RSA_PUB_KEY = "/data/ssh/ssh_host_rsa_key.pub";
 	public static String DSA_KEY = "/data/ssh/ssh_host_dsa_key";
 	public static String DSA_PUB_KEY = "/data/ssh/ssh_host_dsa_key.pub";
+	public static String SSHD_CONFIG = "/data/ssh/sshd_config";
+	public static ArrayList<String> CONFIG = new ArrayList<String>() {{
+		add("HostKey /data/ssh/ssh_host_rsa_key");
+		add("HostKey /data/ssh/ssh_host_dsa_key");
+		add("AuthorizedKeysFile	/data/ssh/authorized_keys");
+		add("HostKey /data/ssh/ssh_host_dsa_key");
+		add("Subsystem sftp /usr/libexec/sftp-server");
+	}} ;
 	
 	
 
